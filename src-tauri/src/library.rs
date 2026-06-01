@@ -33,6 +33,12 @@ pub struct LibraryItem {
     /// Color label key ("red"/"yellow"/"green"/"blue"/"purple") or "" for none.
     #[serde(default)]
     pub color: String,
+    /// Project name this render belongs to ("" = untitled).
+    #[serde(default)]
+    pub project: String,
+    /// Auto-incrementing version number within the project (1-based).
+    #[serde(default)]
+    pub version: u32,
 }
 
 fn now_millis() -> u64 {
@@ -88,6 +94,7 @@ pub fn save_to_library(
     model: String,
     resolution: String,
     source_name: String,
+    project: String,
 ) -> Result<LibraryItem, String> {
     let bytes = STANDARD
         .decode(image_base64.as_bytes())
@@ -99,6 +106,17 @@ pub fn save_to_library(
     let file = format!("{id}.{}", ext_for(&mime));
     let full = library_dir(&app)?.join(&file);
     fs::write(&full, &bytes).map_err(|e| format!("could not save render: {e}"))?;
+
+    let mut items = read_index(&app)?;
+    // Version = next number within this project (commands are serialized on the
+    // main thread, so a batch of renders increments cleanly).
+    let version = items
+        .iter()
+        .filter(|i| i.project == project)
+        .map(|i| i.version)
+        .max()
+        .unwrap_or(0)
+        + 1;
 
     let item = LibraryItem {
         id,
@@ -112,9 +130,10 @@ pub fn save_to_library(
         created_at,
         favorite: false,
         color: String::new(),
+        project,
+        version,
     };
 
-    let mut items = read_index(&app)?;
     items.push(item.clone());
     write_index(&app, &items)?;
     Ok(item)

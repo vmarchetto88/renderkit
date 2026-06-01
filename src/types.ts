@@ -35,4 +35,6 @@ export interface LibraryItem {
   favorite: boolean;
   /** Color label key or "" for none. */
   color: string;
+  project: string;
+  version: number;
 }

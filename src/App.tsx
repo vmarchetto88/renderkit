@@ -51,6 +51,7 @@ function basename(path: string): string {
 
 function App() {
   const [source, setSource] = useState<SourceImage | null>(null);
+  const [project, setProject] = useState("");
   const [prompt, setPrompt] = useState("");
   const [model, setModel] = useState<ModelTier>("flash");
   const [resolution, setResolution] = useState<Resolution>("2K");
@@ -220,6 +221,7 @@ function App() {
             curModel,
             res,
             src.name,
+            project.trim(),
           );
           setLibrary((prev) => [item, ...prev]);
         } catch (e) {
@@ -335,6 +337,15 @@ function App() {
           <img className="brand-logo" src="/mhs-logo.png" alt="MHS" />
           MHS Render
           <span className="tag">Gemini renders for 3D viewport shots</span>
+        </div>
+        <div className="project-field">
+          <span className="pf-label">Project</span>
+          <input
+            className="pf-input"
+            placeholder="Untitled"
+            value={project}
+            onChange={(e) => setProject(e.target.value)}
+          />
         </div>
         <div className="topbar-actions">
           <button className="ghost" onClick={() => setShowLibrary(true)}>

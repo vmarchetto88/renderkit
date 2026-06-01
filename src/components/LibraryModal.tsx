@@ -180,7 +180,8 @@ export function LibraryModal({
         ) : (
           <div className="library-grid">
             {shown.map((item) => (
-              <div className="lib-thumb" key={item.id}>
+              <div className="lib-cell" key={item.id}>
+                <div className="lib-thumb">
                 <img
                   src={fileSrc(item.path)}
                   alt={item.prompt}
@@ -238,6 +239,11 @@ export function LibraryModal({
                     </div>
                   </div>
                 )}
+                </div>
+                <div className="lib-caption">
+                  {item.project || "Untitled"}
+                  {item.version ? ` · v${item.version}` : ""}
+                </div>
               </div>
             ))}
           </div>
@@ -270,6 +276,13 @@ export function LibraryModal({
               </div>
               <div className="lib-detail-info">
                 <div className="lib-detail-meta">
+                  <div className="kv">
+                    <span>Project</span>
+                    <b>
+                      {selected.project || "Untitled"}
+                      {selected.version ? ` · v${selected.version}` : ""}
+                    </b>
+                  </div>
                   <div className="kv">
                     <span>Model</span>
                     <b>

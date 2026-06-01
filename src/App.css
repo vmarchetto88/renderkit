@@ -66,6 +66,36 @@ body {
   font-size: 12px;
   color: var(--muted);
 }
+.project-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+  max-width: 420px;
+  margin: 0 16px;
+}
+.pf-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
+}
+.pf-input {
+  flex: 1;
+  max-width: 280px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--text);
+  padding: 7px 11px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.pf-input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
 
 /* ---- Presets row ---- */
 .presets {
@@ -613,9 +643,18 @@ button:disabled {
   padding-right: 4px;
   align-content: start;
 }
-/* Clean, uniform thumbnail grid — every image shown whole (uncropped).
-   The image is absolutely positioned so it can't distort the cell; the cell's
-   aspect-ratio governs the layout, giving evenly aligned rows like iPhoto. */
+/* Each grid item: a fixed-aspect thumbnail with a caption below it. The cell is
+   a normal flex block (height = thumb + caption), so grid rows align cleanly
+   and never overlap. */
+.lib-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+/* Uniform thumbnail — every image shown whole (uncropped). The image is
+   absolutely positioned so it can't distort the cell; the cell's aspect-ratio
+   governs the layout, giving evenly aligned rows like iPhoto. */
 .lib-thumb {
   position: relative;
   width: 100%;
@@ -628,6 +667,14 @@ button:disabled {
   overflow: hidden;
   display: block;
   transition: border-color 0.12s ease;
+}
+.lib-caption {
+  font-size: 12px;
+  color: var(--text);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .lib-thumb:hover {
   border-color: var(--accent);

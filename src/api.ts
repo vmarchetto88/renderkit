@@ -43,6 +43,7 @@ export const saveToLibrary = (
   model: ModelTier,
   resolution: Resolution,
   sourceName: string,
+  project: string,
 ) =>
   invoke<LibraryItem>("save_to_library", {
     imageBase64,
@@ -51,6 +52,7 @@ export const saveToLibrary = (
     model,
     resolution,
     sourceName,
+    project,
   });
 
 export const loadLibrary = () => invoke<LibraryItem[]>("load_library");

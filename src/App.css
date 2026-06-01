@@ -56,10 +56,9 @@ body {
   gap: 10px;
 }
 .brand-logo {
-  height: 28px;
-  width: 28px;
-  border-radius: 6px;
-  object-fit: cover;
+  height: 30px;
+  width: 30px;
+  object-fit: contain;
 }
 .brand .tag {
   margin-left: 12px;

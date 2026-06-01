@@ -278,7 +278,8 @@ body {
 .canvas {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Smaller source pane, render pane as large as possible. */
+  grid-template-columns: minmax(240px, 0.8fr) 2fr;
   gap: 14px;
   padding: 16px 18px;
   overflow: hidden;
@@ -338,9 +339,10 @@ body {
 .result-grid {
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Two stacked boxes, each full pane width — as large as possible. */
+  grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   padding: 10px;
   overflow: hidden;
 }

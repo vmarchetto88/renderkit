@@ -26,7 +26,7 @@ interface SourceImage {
   name: string;
 }
 
-const BATCH = 4;
+const BATCH = 2;
 
 type TileStatus = "idle" | "loading" | "done" | "error";
 
@@ -545,8 +545,8 @@ function App() {
               disabled={rendering || !source}
             >
               {rendering
-                ? "Rendering ×4…"
-                : `Render ×4${model === "pro" ? ` · ${resolution}` : ""} →`}
+                ? `Rendering ×${BATCH}…`
+                : `Render ×${BATCH}${model === "pro" ? ` · ${resolution}` : ""} →`}
             </button>
           </div>
         </div>

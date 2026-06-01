@@ -332,7 +332,8 @@ function App() {
     <div className="app">
       <header className="topbar">
         <div className="brand">
-          RenderKit
+          <img className="brand-logo" src="/mhs-logo.png" alt="MHS" />
+          MHS Render
           <span className="tag">Gemini renders for 3D viewport shots</span>
         </div>
         <div className="topbar-actions">

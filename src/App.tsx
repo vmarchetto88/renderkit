@@ -51,7 +51,13 @@ function basename(path: string): string {
 
 function App() {
   const [source, setSource] = useState<SourceImage | null>(null);
-  const [project, setProject] = useState("");
+  const [project, setProject] = useState(() => {
+    try {
+      return localStorage.getItem("mhs_project") ?? "";
+    } catch {
+      return "";
+    }
+  });
   const [prompt, setPrompt] = useState("");
   const [model, setModel] = useState<ModelTier>("flash");
   const [resolution, setResolution] = useState<Resolution>("2K");
@@ -80,6 +86,22 @@ function App() {
     [presets, activePreset],
   );
   const lockedActive = !!activePresetObj?.locked;
+
+  // Past project names for autocomplete (most-recently-used first; library is
+  // already sorted newest-first).
+  const projectNames = useMemo(
+    () => [...new Set(library.map((i) => i.project).filter(Boolean))],
+    [library],
+  );
+
+  // Remember the last project name across restarts.
+  useEffect(() => {
+    try {
+      localStorage.setItem("mhs_project", project);
+    } catch {
+      /* ignore */
+    }
+  }, [project]);
 
   const categories = useMemo(
     () => [...new Set(presets.map((p) => p.category || "Uncategorized"))],
@@ -344,8 +366,14 @@ function App() {
             className="pf-input"
             placeholder="Untitled"
             value={project}
+            list="project-names"
             onChange={(e) => setProject(e.target.value)}
           />
+          <datalist id="project-names">
+            {projectNames.map((n) => (
+              <option key={n} value={n} />
+            ))}
+          </datalist>
         </div>
         <div className="topbar-actions">
           <button className="ghost" onClick={() => setShowLibrary(true)}>
